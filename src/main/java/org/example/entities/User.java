@@ -2,33 +2,41 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 
+//import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name="tbl_users")
+@Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @NotBlank(message = "Name is required")
-    @Size(max = 100, message = "Name must not exceed 100 characters")
+    @NotNull
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email should be valid")
-    @Size(max = 150, message = "Email must not exceed 150 characters")
+    @NotNull
+    @Email
+    @Column(name = "email", nullable = false, unique = true, length = 150)
     private String email;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 6, max = 255, message = "Password must be between 6 and 255 characters")
+    @NotNull
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    public int getId() {
+    // Getters and setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

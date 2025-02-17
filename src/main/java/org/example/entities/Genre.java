@@ -2,20 +2,27 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 
+//import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 @Entity
-@Table(name="tbl_genres")
+@Table(name = "genres")
 public class Genre {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(length = 150, nullable = false)
+    private Long id;
+
+    @NotNull
+    @Column(name = "name", nullable = false, unique = true, length = 100)
     private String name;
 
-    public int getId() {
+    // Getters and setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

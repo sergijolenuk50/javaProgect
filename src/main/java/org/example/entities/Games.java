@@ -2,30 +2,40 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 
+//import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Entity
-@Table(name="tbl_gamess")
+@Table(name = "games")
 public class Games {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @NotBlank(message = "Title is required")
-    @Size(max = 255, message = "Title must not exceed 255 characters")
+    @NotNull
+    @Column(name = "title", nullable = false, length = 255)
     private String title;
 
-    @NotNull(message = "Price is required")
-    @Positive(message = "Price must be a positive number")
+    @NotNull
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    private Integer genreId; // genre_id can be null if the genre is not selected
+    @ManyToOne
+    @JoinColumn(name = "genre_id", nullable = true)
+    private Genre genre;
 
+    @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    public int getId() {
+    // Getters and setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,11 +55,19 @@ public class Games {
         this.price = price;
     }
 
-    public Integer getGenreId() {
-        return genreId;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setGenreId(Integer genreId) {
-        this.genreId = genreId;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }
